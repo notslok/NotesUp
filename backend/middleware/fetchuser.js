@@ -11,6 +11,7 @@ const fetchuser = (req, res, next) => {
     try {
         
         const data = jwt.verify(token, JWT_SECRET);
+        // console.log(data.user); ...returns unique user id
         req.user = data.user;
         
         next();

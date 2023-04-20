@@ -11,41 +11,42 @@ const JWT_SECRET = "jwt_secret";
 // ROUTE 1: Create a User using: POST "/api/auth/createuser" - login not needed
 router.post('/createuser', [ check('name').isLength({min : 3}), check('email').isEmail(), check('password').isLength({min : 5})], async (req,res)=>{
     
-    // check for errors
-    const error = validationResult(req);
-    if (!error.isEmpty()) { 
-      return res.status(400).json({errors: error.array()});
-    } 
-
-    // check whether user email lready exists
+    
     try{
-
-    let user = await User.findOne({email:req.body.email}); 
-    if(user){
-        return res.status(400).json({error: "Sorry, a user with this email already exists"})
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    securePassword = await bcrypt.hash(req.body.password, salt);
-
-    // Create user
-    user = await User.create({
-        name: req.body.name,
-        password: securePassword,
-        email: req.body.email
-    })
-
-    const data = {
-        user:{
-            id: user.id
+        
+        // check for errors
+        const error = validationResult(req);
+        if (!error.isEmpty()) { 
+          return res.status(400).json({errors: error.array()});
+        } 
+        
+        // check whether user email lready exists
+        let user = await User.findOne({email:req.body.email}); 
+        if(user){
+            return res.status(400).json({error: "Sorry, a user with this email already exists"})
         }
-    }
-    console.log(data);
 
-    const authToken = jwt.sign(data, JWT_SECRET);
-    console.log(authToken);
+        const salt = await bcrypt.genSalt(10);
+        securePassword = await bcrypt.hash(req.body.password, salt);
 
-    res.json({authToken});
+        // Create user
+        user = await User.create({
+            name: req.body.name,
+            password: securePassword,
+            email: req.body.email
+        })
+
+        const data = {
+            user:{
+                id: user.id
+            }
+        }
+        console.log(data);
+
+        const authToken = jwt.sign(data, JWT_SECRET);
+        console.log(authToken);
+
+        res.json({authToken});
 
     } catch(error){
      
@@ -60,18 +61,19 @@ router.post('/createuser', [ check('name').isLength({min : 3}), check('email').i
 // ROUTE 2: Create a User using: POST "/api/auth/login" - login needed
 router.post('/login',[check('email', 'Enter a valid Email').isEmail(), check('password', 'Password can not be blank').exists()],async (req,res) => {
     
-    // Validating user input for login
-    const errors = validationResult(req);
-    // if error array id not empty respond with error  
-    if(!errors.isEmpty()){
-        res.status(400).json({errors : "Invalid email or password!"});
-    }
-
-    // After validation, extract user email and password from body
-    const {email, password} = req.body;
     
-    // check if user exists
     try{
+        // Validating user input for login
+        const errors = validationResult(req);
+        // if error array id not empty respond with error  
+        if(!errors.isEmpty()){
+            res.status(400).json({errors : "Invalid email or password!"});
+        }
+    
+        // After validation, extract user email and password from body
+        const {email, password} = req.body;
+        
+        // check if user exists
         let user = await User.findOne({email});
         
         // if email isn't in database respond with error

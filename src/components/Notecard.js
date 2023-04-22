@@ -11,7 +11,8 @@ const Notecard = (props) => {
                     <h5 className="card-title card-header">{note.title}</h5>
                     <h6 className="card-subtitle my-2 text-body-secondary">Added: {note.date}</h6>
                     <p className="card-text my-2">{note.description}</p>
-                    <a href="/" className="card-link my-2">Card link</a>
+                    <i className="fa-solid fa-file-pen mx-2"></i>
+                    <i className="fa-solid fa-trash mx-2"></i>
                 </div>
             </div>
         </div>

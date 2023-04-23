@@ -9,13 +9,13 @@ const Notecard = (props) => {
 
     const { note, updateNote } = props;
 
-    const handleUpdate = () => {
-        updateNote(note);
-    }
+    // const handleUpdate = () => {
+    //     updateNote(note);
+    // }
 
-    const handleDelete = () => {
-        deleteNote(note._id);
-    }
+    // const handleDelete = () => {
+    //     deleteNote(note._id);
+    // }
 
     return (
         <div>
@@ -25,8 +25,8 @@ const Notecard = (props) => {
                     <h5 className="card-title card-header">{note.title}</h5>
                     <h6 className="card-subtitle my-2 text-body-secondary">Added: {note.date}</h6>
                     <p className="card-text my-2">{note.description}</p>
-                    <i className="fa-solid fa-file-pen mx-2" onClick={handleUpdate}></i>
-                    <i className="fa-solid fa-trash mx-2" onClick={handleDelete}></i>
+                    <i className="fa-solid fa-file-pen mx-2" onClick={() => {updateNote(note);}}></i>
+                    <i className="fa-solid fa-trash mx-2" onClick={() => {deleteNote(note._id);}}></i>
                 </div>
             </div>
         </div>

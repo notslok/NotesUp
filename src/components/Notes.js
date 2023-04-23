@@ -12,7 +12,8 @@ const Notes = () => {
         getNotes();
         // eslint-disable-next-line
     }, []);
-   
+
+    // useRef hooks...
     const ref = useRef(null);
     const refClose = useRef(null);
 
@@ -57,11 +58,11 @@ const Notes = () => {
                             <form>
                                 <div className="mb-3">
                                     <label htmlFor="title" className="form-label">Title</label>
-                                    <input type="text" className="form-control" id="editTitle" name="editTitle" value={note.editTitle} onChange={onChange} />
+                                    <input type="text" className="form-control" id="editTitle" name="editTitle" value={note.editTitle} onChange={onChange} minLength={5} required/>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="description" className="form-label">Description</label>
-                                    <input type="text" className="form-control" id="editDescription" name="editDescription" value={note.editDescription} onChange={onChange} />
+                                    <input type="text" className="form-control" id="editDescription" name="editDescription" value={note.editDescription} onChange={onChange} minLength={5} required/>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="tag" className="form-label">Tag</label>
@@ -71,14 +72,16 @@ const Notes = () => {
                         </div>
                         <div className="modal-footer">
                             <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={handleSubmit}>Update</button>
+                            <button disabled={note.editTitle.length<5 || note.editDescription.length<5} type="button" className="btn btn-primary" onClick={handleSubmit}>Update</button>
                         </div>
                     </div>
                 </div>
             </div>
             <h1>Your Notes</h1>
             <div className='row row-cols-3 my-3'>
-
+                <div className='container'>
+                    {notes.length === 0 && `No notes to display!`}
+                </div>
                 {notes.map((note) => {
                     return <Notecard key={note._id} updateNote={updateNote} note={note} />;
                 })}

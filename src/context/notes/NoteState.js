@@ -37,21 +37,9 @@ const NoteState = (props) =>{
             body: JSON.stringify({title, description, tag})
         });
         const jsonResponse =  await response.json();
-        console.log(jsonResponse);
 
-        console.log("addNote called...")
-        let note = { //acts as a variable for new note
-            "_id": "6440c2wewesdrb4e7a8ac02877e3248",
-            "key": "6440c2b4ase7a8ac02877e3248",
-            "user": "64402cafccd2bdf557a9593b",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "date": "2023-04-20T04:42:28.559Z",
-            "__v": 0
-          };
         // setNotes(notes.push(note)); // updating note state-> not the right way as .push just updates the array
-        setNotes(notes.concat(note)); // where as .concat updates and then returns a new array
+        setNotes(notes.concat(jsonResponse)); // where as .concat updates and then returns a new array
       }
       
 
@@ -60,6 +48,7 @@ const NoteState = (props) =>{
         // FETCH API call
         // console.log(id);
         const url =  `${host}/api/notes/updatenote/${id}`;   
+        
         const response = await fetch(url, {
             method: 'PUT',
             headers: {

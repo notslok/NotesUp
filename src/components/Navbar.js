@@ -7,7 +7,7 @@ const Navbar = () => {
 
     useEffect(() => {
       // Google Analytics
-      console.log(location);
+    //   console.log(location);
     }, [location]);
 
   return (

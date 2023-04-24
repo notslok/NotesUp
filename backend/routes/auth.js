@@ -106,7 +106,7 @@ router.post('/login',[check('email', 'Enter a valid Email').isEmail(), check('pa
     } catch(error){
         // respond with error for internal server anomaly
         console.error(error.message);
-        res.status(500).send('Internal Server: Some error occured!');
+        res.status(500).send({error:error.message});
     }
 })
 

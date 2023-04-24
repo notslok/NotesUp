@@ -1,7 +1,7 @@
 import {React, useEffect} from 'react'
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
     
     let location = useLocation();
 
@@ -15,6 +15,7 @@ const Navbar = () => {
     const handleLogout = () => {
       localStorage.removeItem('token');
       navigate('/login');
+      props.showNotif("You Have Been Logged Out...", "warning");
     }
 
   return (
@@ -35,7 +36,7 @@ const Navbar = () => {
         </ul>
         {!localStorage.getItem('token') ? 
         <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+            {/* <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/> */}
             {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
             <Link role="button" className="btn btn-primary mx-2" to="/login">Login</Link>
             <Link role="button" className="btn btn-primary" to="/signup">Sign Up</Link>

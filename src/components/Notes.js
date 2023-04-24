@@ -8,6 +8,9 @@ const Notes = (props) => {
 
     const context = useContext(NoteContext);
     const { notes, getNotes, editNote } = context;
+    const ref = useRef(null);
+    const refClose = useRef(null);
+    const [note, setNote] = useState({id:"", editTitle:"", editDescription:"", editTag:""});
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -19,16 +22,13 @@ const Notes = (props) => {
         // eslint-disable-next-line
     }, []);
 
-    // useRef hooks...
-    const ref = useRef(null);
-    const refClose = useRef(null);
 
-    const [note, setNote] = useState({id:"", editTitle:"", editDescription:"", editTag:""});
+    // useRef hooks...
+
 
     const updateNote = (currentNote) => {
         ref.current.click();
         setNote({id: currentNote._id, editTitle: currentNote.title, editDescription: currentNote.description, editTag: currentNote.tag});
-        props.showNotif("Updated", "success");
     }
 
 

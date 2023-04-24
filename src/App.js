@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 function App() {
   const [notif, setNotif] = useState(null);
+ 
   const showNotif = (message, type) => {
     setNotif({message, type});
     setTimeout(() => {
@@ -23,7 +24,7 @@ function App() {
     <>
       <NoteState>
         <Router>
-          <Navbar/>
+          <Navbar showNotif={showNotif}/>
           <Notif alert={notif}/>
             <div className='container'>
               <Routes>

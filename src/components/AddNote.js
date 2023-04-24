@@ -1,7 +1,7 @@
 import {React, useContext, useState, useRef} from 'react'
 import NoteContext from "../context/notes/noteContext";
 
-const AddNote = () => {
+const AddNote = (props) => {
     const context = useContext(NoteContext);    
     const { addNote } = context;
 
@@ -22,7 +22,7 @@ const AddNote = () => {
         
         setNote({title:"", description:"", tag:""}); //empty form after submit
         // clear the fields after submission
-        
+        props.showNotif("Note Added!", "success");
     }
     
     

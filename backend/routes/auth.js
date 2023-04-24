@@ -13,17 +13,17 @@ router.post('/createuser', [ check('name').isLength({min : 3}), check('email').i
     
     
     try{
-        
+        let success = false;
         // check for errors
         const error = validationResult(req);
         if (!error.isEmpty()) { 
-          return res.status(400).json({errors: error.array()});
+          return res.status(400).json({success, errors: error.array()});
         } 
         
         // check whether user email lready exists
         let user = await User.findOne({email:req.body.email}); 
         if(user){
-            return res.status(400).json({error: "Sorry, a user with this email already exists"})
+            return res.status(400).json({success,error: "Sorry, a user with this email already exists"})
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -45,13 +45,14 @@ router.post('/createuser', [ check('name').isLength({min : 3}), check('email').i
 
         const authToken = jwt.sign(data, JWT_SECRET);
         console.log(authToken);
-
-        res.json({authToken});
+        
+        success = true;        
+        res.json({success, authToken});
 
     } catch(error){
      
         console.error(error.message);
-        res.status(500).send("'Internal Server: Some error occured!'");
+        res.status(500).send({error:error.message});
     }
 })
 
@@ -63,6 +64,7 @@ router.post('/login',[check('email', 'Enter a valid Email').isEmail(), check('pa
     
     
     try{
+        let success = false;
         // Validating user input for login
         const errors = validationResult(req);
         // if error array id not empty respond with error  
@@ -78,13 +80,15 @@ router.post('/login',[check('email', 'Enter a valid Email').isEmail(), check('pa
         
         // if email isn't in database respond with error
         if(!user){
-            return res.status(400).json({error: "Please use correct credentials to login!"});
+            success = false;
+            return res.status(400).json({success, error: "Please use correct credentials to login!"});
         }
 
         // if email found, verify the password
         const passwordCheck = await bcrypt.compare(password, user.password); //creates the hash of input nad matches the hash with the one stored in database
         if(!passwordCheck){
-            return res.status(400).json({error: "Please use correct credentials to login!"});
+            success = false;
+            return res.status(400).json({success, error: "Please use correct credentials to login!"});
         }
 
         // if password is also correct, extract user id
@@ -96,7 +100,8 @@ router.post('/login',[check('email', 'Enter a valid Email').isEmail(), check('pa
 
         const authToken = jwt.sign(data, JWT_SECRET);
         // if everything went fine respond with jwt token of user's id
-        res.json({authToken});
+        success=true;
+        res.json({success, authToken});
 
     } catch(error){
         // respond with error for internal server anomaly

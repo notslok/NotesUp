@@ -26,7 +26,7 @@ const Notecard = (props) => {
                     <h6 className="card-subtitle my-2 text-body-secondary">Added: {note.date}</h6>
                     <p className="card-text my-2">{note.description}</p>
                     <i className="fa-solid fa-file-pen mx-2" onClick={() => {updateNote(note);}}></i>
-                    <i className="fa-solid fa-trash mx-2" onClick={() => {deleteNote(note._id);}}></i>
+                    <i className="fa-solid fa-trash mx-2" onClick={() => {deleteNote(note._id); props.showNotif("Note Deleted...", "successful")}}></i>
                 </div>
             </div>
         </div>

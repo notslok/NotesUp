@@ -1,11 +1,11 @@
-import AddNote from './AddNote';
+// import AddNote from './AddNote';
 import Notes from './Notes';
 
-const Home = () => {
+const Home = (props) => {
 
     return (
         <div>
-            <Notes/>
+            <Notes showNotif={props.showNotif}/>
         </div>
     )
 }

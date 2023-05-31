@@ -1,11 +1,10 @@
-require('dotenv').config();
-
 const mongoose = require('mongoose');
-const mongoURI = "mongodb+srv://notslokofc:passwordNotesUp@notesup.e35kxp1.mongodb.net/?retryWrites=true&w=majority"
+require('dotenv').config()
+const mongoURI = process.env.REACT_APP_MONGODB_URI;
 // console.log(process.env.MONGODB_URI)
-// const mongoURI = process.env.MONGODB_URI;
+// var mong = process.env;
 const connectToMongo = async () => {
-    console.log(process.env.UHHH)
+    // console.log()
     await mongoose.connect(mongoURI);
     console.log('MongoDB connected')
 }
